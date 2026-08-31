@@ -1,0 +1,4 @@
+[P#H1#判据]
+折半查找：[T#1#只适用于有序的顺序表，链表无法适用]（不具备随机存储特性）；[T#2#mid=⌊(low+high)/2⌋]（可向下取整用左移实现）；[T#3#low>high 时查找失败]。
+---
+解析：data[mid]<target 则 low=mid+1；data[mid]>target 则 high=mid−1；时间复杂度 O(log₂n)。

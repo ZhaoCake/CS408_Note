@@ -1,0 +1,4 @@
+[P#H1#判据]
+KMP 优化（nextval）：[T#!!fff59d#不应出现 p[j]=p[next[j]]，否则拿相等的字符再比必然继续失配]；处理——将 next[j] 递归变为 [T#1#next[next[j]]] 直到两者不等，更新后为 nextval。
+---
+解析：模式串"aaaab"的 next 为 0 1 2 3 4，nextval 为 0 0 0 0 4；[T#B#重复字符越多，nextval 优化效果越大]。

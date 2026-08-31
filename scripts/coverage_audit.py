@@ -79,6 +79,22 @@ COURSES = [
             (7, "EX-第七章总结.md", "6-input-output-system.md"),
         ],
     },
+    {
+        "name": "数据结构",
+        "ex_dir": "DataStructure/EX-选择题总结",
+        "note_dir": "DataStructure/课程笔记",
+        "markji": "markji/数据结构",
+        "chapters": [
+            (1, "__NONE__", "1-summary.md"),          # DS 第一章无 EX 文件，以笔记为主源
+            (2, "EX-第二章考点总结.md", "2-linear-list.md"),
+            (3, "EX-第三章考点总结.md", "3-stack_queue_and_array.md"),
+            (4, "EX-第四章考点总结.md", "4-string.md"),
+            (5, "EX-第五章考点总结.md", "5-tree_and_binary_tree.md"),
+            (6, "EX-第六章考点总结.md", "6-graph.md"),
+            (7, "EX-第七章考点总结.md", "7-search.md"),
+            (8, "EX-第八章考点总结.md", "8-sort.md"),
+        ],
+    },
 ]
 
 
@@ -402,18 +418,20 @@ def main():
                 continue
             r = audit_chapter(cfg, ch_no, ex_fn, note_fn, card_dir)
             p = write_chapter_report(cfg, ch_no, card_dir, r)
-            rate = r["c1_cover"] / r["ex_total"] * 100 if r["ex_total"] else 0
+            rate = r["c1_cover"] / r["ex_total"] * 100 if r["ex_total"] else None
             all_rows.append((cfg["name"], ch_no, os.path.basename(card_dir),
                              r["cards"], r["ex_total"], r["c1_miss"], r["c1_cross"], rate))
+            rate_s = f"{rate:.1f}%" if rate is not None else "N/A"
             print(f"[OK] {cfg['name']} 第{ch_no}章  卡{r['cards']} EX{r['ex_total']} "
-                  f"未覆盖{r['c1_miss']} 跨章{r['c1_cross']}  完全覆盖率{rate:.1f}%")
+                  f"未覆盖{r['c1_miss']} 跨章{r['c1_cross']}  完全覆盖率{rate_s}")
 
     lines = ["# 408 制卡覆盖率总览", "",
              "> 由 `scripts/coverage_audit.py` 自动生成（四通道）。", ""]
     lines.append("| 课程 | 章 | 卡片数 | EX条目 | 未覆盖 | 跨章 | 完全覆盖率 |")
     lines.append("|---|---|---|---|---|---|---|")
     for name, ch, title, cards, exn, miss, cross, rate in all_rows:
-        lines.append(f"| {name} | {title} | {cards} | {exn} | {miss} | {cross} | {rate:.1f}% |")
+        rate_s = f"{rate:.1f}%" if rate is not None else "N/A"
+        lines.append(f"| {name} | {title} | {cards} | {exn} | {miss} | {cross} | {rate_s} |")
     with open(os.path.join(ROOT, "markji", "覆盖率报告", "README.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
     print("\n汇总 -> markji/覆盖率报告/README.md")
