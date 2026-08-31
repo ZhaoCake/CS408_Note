@@ -1,0 +1,4 @@
+[P#H1#判据]
+浮点类型转换：无损转换——[T#1#char → int → long → double]，[T#2#float → double]；有损——[T#3#float → int]（[T#!e53935#可能溢出且小数部分丢失]；float 为整数时无损）、[T#4#int → double]（尾数多于 23 位时多余部分丢失，不多于 23 位则无损）。
+---
+解析：各类型位数——char 1B、short 2B、int 4B、long 8B（64 位系统）、float 4B、double 8B。
