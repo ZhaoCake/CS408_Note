@@ -1,7 +1,4 @@
 [P#H1#数字]
-数据链路层有哪些典型协议？
+自动重传协议 ARQ 包括[F#1#停止-等待协议 SW、后退 N 帧协议 GBN、选择重传协议 SR]；广域网数据链路层协议是[F#2#PPP]。
 ---
-自动重传协议 ARQ：停止-等待协议 SW、后退 N 帧协议 GBN、选择重传协议 SR。
-ALOHA 协议：纯 ALOHA、时隙 ALOHA。
-CSMA 系列及扩展：CSMA（坚持、非坚持、p-坚持）、[F#1#CSMA/CD]、CSMA/CA。
-其他：轮询协议、令牌传递协议、MAC 协议、广域网 [F#2#PPP] 协议、HDLC 协议。
+解析：数据链路层典型协议——ARQ（SW/GBN/SR）；ALOHA（纯 ALOHA、时隙 ALOHA）；CSMA（坚持、非坚持、p-坚持）；CSMA/CD；CSMA/CA；轮询协议；令牌传递协议；MAC 协议；PPP；HDLC。
