@@ -1,5 +1,5 @@
 [P#H1#公式]
-Cache 命中率 H = [T#1#Nc/(Nc+Nm)]；平均访问时间——先访问 Cache 未命中再访问主存：[E##t=Ht_c+(1-H)(t_c+t_m)]；同时访问 Cache 和主存：[E##t=Ht_c+(1-H)t_m]。
+Cache 命中率 H = [F#1#Nc/(Nc+Nm)]；平均访问时间——先访问 Cache 未命中再访问主存：[E##t=Ht_c+(1-H)(t_c+t_m)]；同时访问 Cache 和主存：[E##t=Ht_c+(1-H)t_m]。
 ---
 解析：访问效率 e = tc / [h·tc + (1−h)·tm] × 100%（同时访问模型）；h=0 时最小为 tc/tm，h=1 时最大为 1。
 命中率与 Cache 的容量和块长有关。

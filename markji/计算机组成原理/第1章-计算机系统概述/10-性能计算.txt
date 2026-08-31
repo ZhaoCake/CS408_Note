@@ -1,7 +1,7 @@
 [P#H1#公式]
-性能指标公式（※※）：[E##CPI=m/IC]（m 总时钟周期数、IC 总指令条数）；[E##T_cpu=CPI×IC/f]；MIPS = [T#1#f / (CPI × 10^6)]。
+性能指标公式（※※）：[E##CPI=m/IC]（m 总时钟周期数、IC 总指令条数）；[E##T_cpu=CPI×IC/f]；MIPS = [F#1#f / (CPI × 10^6)]。
 ---
 解析：多类指令时 [E##CPI=Σ(CPI_i × P_i)]（P_i 为每类指令使用频率）。
 IPC（每时钟周期执行指令条数）= [T#B#1/CPI]。
-FLOPS 各级——MFLOPS/GFLOPS/TFLOPS/PFLOPS/EFLOPS/ZFLOPS，逐级 × [T#2#10^3]。
+FLOPS 各级——MFLOPS/GFLOPS/TFLOPS/PFLOPS/EFLOPS/ZFLOPS，逐级 × [F#2#10^3]。
 带宽 = 数据总线宽度 × 总线时钟频率。

@@ -1,5 +1,5 @@
 [P#H1#概念]
-区分 x86 与 MIPS——[T#1#x86 属 CISC 指令长度不固定、寄存器名 eax/ebx；MIPS 属 RISC 指令长度固定、寄存器名 R[0]...]；x86 默认[T#2#小端]存储。
+区分 x86 与 MIPS——[F#1#x86 属 CISC 指令长度不固定、寄存器名 eax/ebx；MIPS 属 RISC 指令长度固定、寄存器名 R[0]...]；x86 默认[F#2#小端]存储。
 ---
 解析：寄存器——EAX/EBX/ECX/EDX（E=32bit），AX/BX（16bit），AH/AL（8bit）；变址寄存器 ESI/EDI（S=Source、D=Destination）；堆栈寄存器 EBP/ESP。
 汇编格式——Intel：第一个为目的操作数、第二个为源操作数（从右向左），寄存器/立即数无前缀，内存寻址用 `[]`；AT&T：源在前目的在后，寄存器加 `%`、立即数加 `$`，内存寻址用 `()`；数据长度——b=8bit、w=16bit、l=32bit、q=64bit（Intel 用 byte/word/dword ptr）。
