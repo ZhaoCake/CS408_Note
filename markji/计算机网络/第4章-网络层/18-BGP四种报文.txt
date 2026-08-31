@@ -1,0 +1,4 @@
+[P#H1#数字]
+BGP-4 四种报文：[F#1#OPEN 打开]（建立关系并认证发送方）、[F#2#UPDATE 更新]（通告新路径或撤销原路径）、[F#3#KEEPALIVE 保活]（周期性证实邻站连通性，也作为 OPEN 的确认）、[F#4#NOTIFICATION 通知]（报告差错、关闭连接）。
+---
+解析：无 UPDATE 时才周期性发送 KEEPALIVE。
