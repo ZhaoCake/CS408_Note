@@ -1,0 +1,7 @@
+[P#H1#公式]
+循环队列判空判满三方案：
+① 牺牲一个存储单元：队满 [T#1#(rear+1)%MaxSize==front]、队空 [T#2#front==rear]、元素个数 [T#3#(rear+MaxSize−front)%MaxSize]；
+② 增设 [T#4#length] 成员：队满 length==MaxSize、队空 length==0；
+③ 增设 [T#5#tag]：删除置 0、插入置 1，[T#6#只有删除才可能队空、只有插入才可能队满]。
+---
+解析：方案②③ 中队空与队满时 front==rear 相同，需靠 length/tag 区分。
