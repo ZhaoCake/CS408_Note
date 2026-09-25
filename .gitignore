@@ -3,3 +3,6 @@
 
 # 编辑器设置
 .obsidian
+
+# 算法实现编译产物
+DataStructure/算法实现/build/
