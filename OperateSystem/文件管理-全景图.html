@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>操作系统 · 第4章 文件管理 全景图</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1800px; }
+  body {
+    background: #eef2f7;
+    font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Segoe UI", sans-serif;
+    color: #1e293b;
+    padding: 26px 30px 30px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .poster { width: 100%; }
+
+  header {
+    background: linear-gradient(120deg, #1e293b 0%, #27364f 60%, #334155 100%);
+    border-radius: 16px;
+    padding: 22px 34px 24px;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  header h1 { font-size: 40px; letter-spacing: 1px; font-weight: 700; }
+  header h1 span { color: #7dd3fc; }
+  header .sub { font-size: 18px; color: #cbd5e1; margin-top: 8px; letter-spacing: .5px; }
+  header .badge {
+    font-size: 17px; line-height: 1.75; text-align: right; color: #e2e8f0;
+    border-left: 2px solid #64748b; padding-left: 20px; flex: 0 0 430px;
+  }
+  header .badge b { color: #fbbf24; }
+
+  .section-title {
+    font-size: 21px; font-weight: 700; color: #0f172a;
+    margin: 0 0 12px 4px; display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::before {
+    content: ""; width: 6px; height: 22px; border-radius: 3px; background: #2563eb;
+  }
+  .section-title em { font-style: normal; font-size: 16px; font-weight: 400; color: #64748b; }
+
+  /* ---------- 主链 ---------- */
+  .chain {
+    background: #ffffff; border-radius: 16px; padding: 20px 22px 22px;
+    box-shadow: 0 1px 3px rgba(15,23,42,.08); margin-bottom: 20px;
+  }
+  .chain-row { display: flex; align-items: stretch; gap: 8px; }
+  .step {
+    flex: 1; border-radius: 10px; padding: 12px 14px 13px;
+    background: #f8fafc; border: 1px solid #dbe3ec; border-top: 4px solid #2563eb;
+  }
+  .step .n {
+    display: inline-block; font-size: 13px; font-weight: 700; color: #fff;
+    background: #2563eb; border-radius: 999px; padding: 1px 9px; margin-bottom: 7px;
+  }
+  .step h3 { font-size: 19px; font-weight: 700; margin-bottom: 6px; color: #0f172a; }
+  .step p { font-size: 15px; line-height: 1.55; color: #475569; }
+  .step.core { background: #fef2f2; border-color: #fecaca; border-top-color: #dc2626; }
+  .step.core .n { background: #dc2626; }
+  .step.core h3 { color: #991b1b; }
+  .step.core p { color: #7f1d1d; }
+  .step.end { border-top-color: #0891b2; }
+  .step.end .n { background: #0891b2; }
+  .arrow {
+    align-self: center; font-size: 26px; color: #94a3b8; font-weight: 700; padding: 0 1px;
+  }
+  .chain-note {
+    margin-top: 12px; font-size: 16px; color: #b45309; background: #fffbeb;
+    border: 1px dashed #fcd34d; border-radius: 10px; padding: 9px 14px; line-height: 1.6;
+  }
+  .chain-note b { color: #92400e; }
+
+  /* ---------- 模块 ---------- */
+  .modules {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: auto; gap: 20px; margin-bottom: 20px;
+  }
+  .card {
+    background: #fff; border-radius: 14px; padding: 0 0 14px;
+    box-shadow: 0 1px 3px rgba(15,23,42,.08); overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .card > h2 {
+    font-size: 21px; font-weight: 700; color: #fff; padding: 11px 18px;
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .card > h2 small { font-size: 14px; font-weight: 400; opacity: .85; }
+  .card .body { padding: 13px 18px 0; font-size: 16.5px; line-height: 1.62; color: #334155; }
+  .card .body ul { list-style: none; }
+  .card .body li { position: relative; padding-left: 15px; margin-bottom: 7px; }
+  .card .body li::before {
+    content: ""; position: absolute; left: 0; top: 11px;
+    width: 6px; height: 6px; border-radius: 2px; background: #94a3b8;
+  }
+  .k { color: #b91c1c; font-weight: 700; }
+  .b { color: #1d4ed8; font-weight: 700; }
+  .g { color: #047857; font-weight: 700; }
+
+  .card-a > h2 { background: #2563eb; }
+  .card-b > h2 { background: #7c3aed; }
+  .card-c > h2 { background: #dc2626; }
+  .card-d > h2 { background: #0891b2; }
+  .card-e > h2 { background: #16a34a; }
+  .card-a { grid-column: 1; grid-row: 1; }
+  .card-d { grid-column: 1; grid-row: 2; }
+  .card-b { grid-column: 2; grid-row: 1; }
+  .card-e { grid-column: 2; grid-row: 2; }
+  .card-c { grid-column: 3; grid-row: 1 / span 2; }
+
+  .sub-block { border-left: 3px solid #e2e8f0; padding-left: 11px; margin: 0 0 11px; }
+  .sub-block h4 { font-size: 16.5px; color: #0f172a; margin-bottom: 3px; }
+  .sub-block p { font-size: 16px; color: #475569; line-height: 1.6; }
+
+  table.mini { width: 100%; border-collapse: collapse; font-size: 15.5px; margin-top: 4px; }
+  table.mini th, table.mini td { border: 1px solid #e2e8f0; padding: 6px 8px; text-align: left; }
+  table.mini th { background: #f1f5f9; font-weight: 700; color: #0f172a; }
+  table.mini td.c { text-align: center; }
+  table.mini .yes { color: #047857; font-weight: 700; }
+  table.mini .no { color: #b91c1c; font-weight: 700; }
+
+  /* ---------- 底部 ---------- */
+  .bottom { display: grid; grid-template-columns: 1090px 590px; gap: 20px; }
+  .axis { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(15,23,42,.08); }
+  .axis > h2 { background: #ea580c; color: #fff; font-size: 21px; padding: 11px 18px; font-weight: 700; }
+  .axis .body { padding: 13px 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 26px; font-size: 16.5px; line-height: 1.62; color: #334155; }
+  .axis .q { font-weight: 700; color: #9a3412; }
+  .calc { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(15,23,42,.08); }
+  .calc > h2 { background: #475569; color: #fff; font-size: 21px; padding: 11px 18px; font-weight: 700; }
+  .calc .body { padding: 13px 18px; font-size: 16.5px; line-height: 1.68; color: #334155; }
+  .calc .body li { list-style: none; margin-bottom: 7px; padding-left: 15px; position: relative; }
+  .calc .body li::before { content: ""; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 2px; background: #94a3b8; }
+  .warn { background: #fef2f2; border: 1px dashed #fca5a5; border-radius: 10px; padding: 8px 12px; margin-top: 8px; font-size: 15.5px; color: #991b1b; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <header>
+    <div>
+      <h1>操作系统 · 第4章 <span>文件管理</span> 全景图</h1>
+      <div class="sub">一条主线：把「用户眼里的字节/记录流」映射成「磁盘上的物理块」，并找到它、共享它、复用空闲块</div>
+    </div>
+    <div class="badge">
+      三条主线<br>
+      <b>描述</b> 文件 · FCB · inode · 目录<br>
+      <b>映射</b> 逻辑结构 → 物理结构<br>
+      <b>支撑</b> 布局 · 空闲管理 · VFS
+    </div>
+  </header>
+
+  <div class="section-title">主链：一次文件访问的完整路径 <em>（背下这条就不迷路）</em></div>
+  <div class="chain">
+    <div class="chain-row">
+      <div class="step">
+        <span class="n">1</span>
+        <h3>用户程序</h3>
+        <p>给出路径 + 文件名；open / read / write 系统调用</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <span class="n">2</span>
+        <h3>逻辑文件系统</h3>
+        <p>逐级检索目录，<b>只比文件名</b>；找 FCB / inode；管打开文件表</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <span class="n">3</span>
+        <h3>文件组织模块</h3>
+        <p>记录号 → 逻辑块号</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step core">
+        <span class="n">4</span>
+        <h3>基本文件系统</h3>
+        <p>逻辑块号 → 物理块号<br><b>三种物理结构的差别只在这一步</b></p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <span class="n">5</span>
+        <h3>I/O 控制</h3>
+        <p>设备驱动程序 + 中断处理程序</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step end">
+        <span class="n">6</span>
+        <h3>磁盘设备</h3>
+        <p>MBR → 引导块 → 超级块 → inode 区 → 数据块</p>
+      </div>
+    </div>
+    <div class="chain-note">
+      <b>两个分水岭：</b>① inode 把「文件名」与「描述信息」拆开 → 目录检索只比文件名，检索变快；
+      ② 物理结构三兄弟的唯一区别，就是「逻辑块号 → 物理块号」怎么算。空闲块从哪来 → 空闲表 / 空闲链 / 位示图 / 成组链接。
+    </div>
+  </div>
+
+  <div class="section-title">五个模块 <em>（对应考纲三块：文件 / 目录 / 文件系统）</em></div>
+  <div class="modules">
+
+    <div class="card card-a">
+      <h2>A 文件的身份与操作 <small>文件的基本概念 / 元数据 / 操作 / 保护</small></h2>
+      <div class="body">
+        <ul>
+          <li>数据项（最低级）→ 记录 → 文件；<span class="b">无结构文件</span>（流式，按字节）／<span class="b">有结构文件</span>（记录式；<b>目录也是特殊的有结构文件</b>）</li>
+          <li><b>FCB</b>：存放控制文件所需信息，实现 <span class="k">按名存取</span>；<b>FCB 的有序集合 = 文件目录，一个 FCB = 一个目录项</b>；FCB 必须连续存放</li>
+          <li><b>inode</b>：把文件名与描述信息分开，描述信息单独成索引结点；分磁盘索引结点 / 内存索引结点（多记“是否被修改、几个进程在用”）</li>
+          <li>六种操作：create、write、read、<b>重定位</b>（只设位置不读写）、delete、<b>截断</b>（属性不变、长度归零）</li>
+          <li><b>打开</b>：FCB 副本进 <span class="b">系统打开文件表</span>（全系统仅一张，含打开计数器）→ 返回 fd；<span class="k">此后内核只能靠 fd 访问，不能再靠文件名</span></li>
+          <li>read / write 参数：<b>文件描述符 + 缓冲区首址 + 传输字节数</b>（<u>不需要文件名和路径</u>）；open 参数：路径 + 文件名 + 操作类型</li>
+          <li>进程打开文件表：每进程一张，存指向系统表的指针 + 文件指针（本进程独有）</li>
+          <li>保护：口令（存 FCB/inode）／加密／<b>访问控制 ACL</b>（粒度小、灵活性高）；Linux 九位 = 3 组 ×（读, 写, 执行）；用户 n 类、权限 m 种 → 至少 <span class="k">n×m 位</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card card-b">
+      <h2>B 逻辑结构 <small>文件的逻辑结构</small></h2>
+      <div class="body">
+        <ul>
+          <li><b>无结构文件</b>：以字节为单位，没有结构只能穷举搜索；适合源程序、目标代码</li>
+          <li><b>顺序文件</b>：串结构（按存入时间，与关键字无关）／顺序结构（按关键字）；定长记录可随机存取 <span class="k">Aᵢ = i×L</span>，<b>可变长记录不能随机存取</b>；<span class="g">批量读写的效率是所有逻辑文件中最高的</span></li>
+          <li><b>索引文件</b>：每条记录一个索引项；<span class="k">记录可离散存放，索引表必须连续存放</span>；索引表本身是定长顺序文件 → 可随机访问；用于实时性要求高的场合</li>
+          <li><b>索引顺序文件</b>：<b>一组记录对应一个索引项</b>，组间有序、<span class="k">组内无序</span>；N 条记录分成 √N 组 → 约 <span class="k">√N 次</span>查找</li>
+          <li><b>散列 / 直接文件</b>：键值经散列函数直接决定物理地址；存取快，但会冲突</li>
+          <li><b>逻辑记录</b>是对文件进行存取的基本单位</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card card-c">
+      <h2>C 物理结构 <small>本章核心 · 最爱考</small></h2>
+      <div class="body">
+        <div class="sub-block">
+          <h4>① 连续分配</h4>
+          <p>物理块号 = <span class="k">起始块号 + 逻辑块号</span>；支持顺序 + 随机访问，顺序读写最快、寻道最少；<b>不利于拓展</b>（末尾块可能已分配、要大量移动盘块）、有难以利用的<b>外部碎片</b>、只适用于长度固定的文件</p>
+        </div>
+        <div class="sub-block">
+          <h4>② 链接分配 · 隐式链接</h4>
+          <p>FCB 记<b>起始 + 结束块号</b>（及长度），块内放指向下一块的指针（对用户透明）；读第 i 号逻辑块需 <span class="k">i+1 次</span>磁盘 I/O；<b>不支持随机访问</b>、中间损坏则后面全丢；<b>簇</b>：几个盘块组成簇按簇分配 → 成倍减少查找时间，代价是增加<b>内部碎片</b></p>
+        </div>
+        <div class="sub-block">
+          <h4>③ 链接分配 · 显式链接 FAT</h4>
+          <p>指针集中存进内存的<b>文件分配表 FAT</b>，FCB 只记<b>起始块号</b>；<span class="k">一个磁盘仅一张 FAT，开机读入并常驻内存 → 地址转换不需要读磁盘</span>；表项物理连续、等长 → “物理块号”字段可隐含；<b>表项位数决定总块数</b>（16 bit → 2¹⁶ 块），FAT 总大小 = 表项数 × 表项大小</p>
+        </div>
+        <div class="sub-block">
+          <h4>④ 索引分配（※※※）</h4>
+          <p>每个文件一张<b>索引表</b>（逻辑块号隐含 + 物理块号），功能类似页表；支持随机访问、无碎片、方便拓展；<b>单个文件长度与索引结点个数无关</b>；链接方案查找效率低；<span class="k">K 层索引且顶层未调入内存 → 访问一个数据块需 K+1 次读盘，小文件也不例外</span>；<b>混合索引</b>让“小文件用较少读盘次数”就能命中</p>
+        </div>
+        <div class="sub-block" style="border-left-color:#fca5a5">
+          <h4>容量计算（混合索引）</h4>
+          <p>每索引块可放 <b>盘块大小 ÷ 索引项大小</b> 个索引项；典型（盘块 4 KB、索引项 4 B）→ 1 K = 2¹⁰ 项：<br>
+          <b>10 个直接项 = 40 KB</b>；一级间接 <b>4 MB</b>；二级间接 <b>4 GB</b>；三级间接 <b>4 TB</b></p>
+        </div>
+        <table class="mini">
+          <tr><th>判据</th><th class="c">连续</th><th class="c">隐式链接</th><th class="c">FAT</th><th class="c">索引</th></tr>
+          <tr><td>随机访问</td><td class="c yes">✓</td><td class="c no">✗</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+          <tr><td>外部碎片</td><td class="c no">有</td><td class="c yes">无</td><td class="c yes">无</td><td class="c yes">无</td></tr>
+          <tr><td>方便拓展</td><td class="c no">✗</td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+          <tr><td>读盘次数</td><td class="c">最少</td><td class="c">i+1 次</td><td class="c yes">转换 0 次</td><td class="c">K+1 次</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card card-d">
+      <h2>D 目录与共享 <small>目录 / 硬链接与软链接</small></h2>
+      <div class="body">
+        <ul>
+          <li><b>演进主线</b>：单级（全系统一张表，不许重名、查找慢）→ 两级（<b>MFD 主文件目录 + UFD 用户文件目录</b>，允许重名、不能分类）→ 树形（不同目录可重名、检索快，但不便于共享、逐级访问磁盘次数多）→ <b>无环图</b>（增加指向同一结点的边，方便共享）</li>
+          <li><b>共享计数器</b>：删除请求只删该用户的 FCB 并计数 −1，<span class="k">当且仅当计数为 0 才真正删除结点</span></li>
+          <li>绝对路径（从根出发）／相对路径（从当前目录出发，更常用）；多级目录中从根到任一文件<b>有且只有一条路径</b></li>
+          <li><b>硬链接</b>（基于索引结点）：与被链接文件<span class="k">指向同一索引结点</span>，引用计数 +1；count = 0 才真删；<b>查找比软链接快</b>；一般不能跨文件系统</li>
+          <li><b>软链接</b>（基于符号链）：独立的 Link 类型文件（快捷方式），指向<b>不同</b>索引结点；<span class="k">可跨文件系统、可指向目录</span>；创建/删除软链接、删除被链接文件，<b>count 都不变</b></li>
+          <li>共享 ≠ 复制：系统中只有<b>一份</b>数据，一人修改所有人可见；硬/软链接都多出一个文件名 → 全目录转储到顺序载体时会产生多份副本</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card card-e">
+      <h2>E 文件系统全局 <small>布局 / 空闲空间 / VFS / 挂载</small></h2>
+      <div class="body">
+        <ul>
+          <li><b>五层结构</b>：应用程序 → 逻辑文件系统（目录与元数据、打开文件表）→ 文件组织模块（记录号 → 逻辑地址）→ 基本文件系统（逻辑地址 → 物理地址）→ I/O 控制（驱动 + 中断）→ 设备</li>
+          <li><b>格式化</b>：物理格式化（低级：划分扇区、检测坏扇区并用备用扇区替换）→ 逻辑格式化（划分分区/分卷、完成文件系统初始化、建立根目录）</li>
+          <li><b>磁盘布局</b>：MBR（0 号扇区 + 分区表，确定活动分区）→ 引导块（自带格式，因引导时还不能解释文件系统格式）→ 超级块（块数量/大小、空闲块数量与指针、空闲 FCB…，启动或首次使用时载入内存）→ inode 区 → 文件数据块</li>
+          <li><b>内存结构</b>：超级块副本、<b>挂载表</b>、<b>目录项高速缓存</b>、系统/进程打开文件表</li>
+          <li><b>空闲空间四法</b>：空闲表法（连续分配，首次/最佳/最坏适应；回收：两侧都空闲表项 −1、一侧空闲不变、都不空闲 +1）／空闲链表法（<b>空闲盘块链</b>适用离散、<b>空闲盘区链</b>分配多块效率更高）／<b>位示图法</b>／<b>成组链接法</b>（UNIX：最后一个空闲盘块作“成组链块”存下一组，系统只存指向第一个成组链块的指针）</li>
+          <li><b>VFS</b>：为用户提供统一接口、屏蔽底层差异；面向对象思想定义通用模型；<span class="k">严格来说不是实际的文件系统，只存在于内存中</span>；四对象 = 超级块对象 / 索引结点对象 / 目录项对象 / 文件对象</li>
+          <li><b>挂载 mounting</b>：使用前必须挂载；在 VFS 中注册，内存挂载表记录类型、容量；新文件系统提供<b>函数地址列表</b>；挂载点 = 某个父目录</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom">
+    <div class="axis">
+      <h2>选择题判据轴：四问 + 三补</h2>
+      <div class="body">
+        <div><span class="q">① 支持随机访问？</span> 连续 ✓｜隐式链接 ✗｜FAT ✓｜索引 ✓</div>
+        <div><span class="q">② 有外部碎片？</span> 只有连续分配有</div>
+        <div><span class="q">③ 方便文件拓展？</span> 只有连续分配不方便</div>
+        <div><span class="q">④ 要读几次盘？</span> 隐式链接 i+1 次｜K 层索引 K+1 次｜FAT 转换 0 次</div>
+        <div><span class="q">补 1 占额外空间？</span> FAT / 索引表 / 指针都要</div>
+        <div><span class="q">补 2 要先知道大小？</span> 连续分配必须先确定；链接、索引不用</div>
+        <div><span class="q">补 3 中间损坏？</span> 隐式链接会丢掉后面全部数据</div>
+        <div><span class="q">再补</span> 空闲管理归属：连续 ↔ 空闲表；离散 ↔ 空闲盘块链；两者皆可 ↔ 位示图、成组链接</div>
+      </div>
+    </div>
+
+    <div class="calc">
+      <h2>必会公式与易错</h2>
+      <div class="body">
+        <ul>
+          <li>每索引块项数 = 盘块大小 ÷ 索引项大小</li>
+          <li>混合索引：40 KB / 4 MB / 4 GB / 4 TB</li>
+          <li>位示图（0 开始）：<b>b = n×i + j</b>，i = b÷n，j = b mod n</li>
+          <li>索引顺序文件：N 条记录 ≈ <b>√N 次</b>查找</li>
+          <li>顺序文件定长记录：<b>Aᵢ = i×L</b></li>
+        </ul>
+        <div class="warn">
+          <b>易错：</b>open 后只能用 fd；FCB 必须连续存放；索引文件的记录可离散、索引表必须连续；位示图按 0 开始算；成组链接中“指向下一组的空闲盘块不参与分配”；VFS 只在内存；多层索引下小文件也要 K+1 次读盘；软链接不影响 count；提前读只对顺序访问有效。
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
